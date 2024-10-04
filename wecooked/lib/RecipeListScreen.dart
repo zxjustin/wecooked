@@ -1,48 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'RecipeDetailScreen.dart';
-import 'node.dart';  // Import your models here
+import 'StepScenarioScreen.dart';
+import 'node.dart';
 
 class RecipeListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Get the Hive box where recipes are stored
-    var recipeBox = Hive.box<Recipe>('recipes');
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Recipe List'),
-      ),
+      appBar: AppBar(title: Text('Recipe Game')),
       body: ValueListenableBuilder(
-        valueListenable: recipeBox.listenable(),
-        builder: (context, Box<Recipe> box, _) {
-          // Check if the box is empty
-          if (box.isEmpty) {
-            return Center(
-              child: Text('No recipes available.'),
+        valueListenable: Hive.box<Recipe>('recipes').listenable(),
+        builder: (context, Box<Recipe> recipeBox, _) {
+          if (recipeBox.isEmpty) {
+            return Center(child: Text('No recipes found.'));
+          } else {
+            return ListView.builder(
+              itemCount: recipeBox.length,
+              itemBuilder: (context, index) {
+                Recipe? recipe = recipeBox.getAt(index);
+                return ListTile(
+                  title: Text(recipe?.name ?? 'Unnamed Recipe'),
+                  onTap: () {
+                    if (recipe != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => StepScenarioScreen(recipe: recipe),
+                        ),
+                      );
+                    }
+                  },
+                );
+              },
             );
           }
-
-          // Display the list of recipes
-          return ListView.builder(
-            itemCount: box.length,
-            itemBuilder: (context, index) {
-              Recipe recipe = box.getAt(index) as Recipe;
-
-              return ListTile(
-                title: Text(recipe.name),
-                onTap: () {
-                  // Navigate to the recipe detail screen (implement separately)
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RecipeDetailScreen(recipe: recipe),
-                    ),
-                  );
-                },
-              );
-            },
-          );
         },
       ),
     );
