@@ -1,37 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/adapters.dart';
-import 'node.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'RecipeDetailScreen.dart';
+import 'node.dart';  // Import your models here
 
 class RecipeListScreen extends StatelessWidget {
-  final recipeBox = Hive.box('recipeBox');
-
   @override
   Widget build(BuildContext context) {
+    // Get the Hive box where recipes are stored
+    var recipeBox = Hive.box<Recipe>('recipes');
+
     return Scaffold(
-      appBar: AppBar(title: Text('Recipe Game')),
+      appBar: AppBar(
+        title: Text('Recipe List'),
+      ),
       body: ValueListenableBuilder(
         valueListenable: recipeBox.listenable(),
-        builder: (context, Box box, _) {
+        builder: (context, Box<Recipe> box, _) {
+          // Check if the box is empty
           if (box.isEmpty) {
-            return Center(child: Text('No recipes yet!'));
+            return Center(
+              child: Text('No recipes available.'),
+            );
           }
 
+          // Display the list of recipes
           return ListView.builder(
             itemCount: box.length,
             itemBuilder: (context, index) {
-              final recipe = box.getAt(index) as Recipe;
-              return Card(
-                child: ListTile(
-                  title: Text(recipe.name),
-                  onTap: () => Navigator.push(
+              Recipe recipe = box.getAt(index) as Recipe;
+
+              return ListTile(
+                title: Text(recipe.name),
+                onTap: () {
+                  // Navigate to the recipe detail screen (implement separately)
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => RecipeDetailScreen(recipe: recipe),
+                      builder: (context) => RecipeDetailScreen(recipe: recipe),
                     ),
-                  ),
-                ),
+                  );
+                },
               );
             },
           );
