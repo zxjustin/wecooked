@@ -32,10 +32,24 @@ class RecipeListScreen extends StatelessWidget {
                         if (recipe != null) {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => StepScenarioScreen(recipe: recipe),
+                            PageRouteBuilder(
+                              pageBuilder: (context, animation, secondaryAnimation) => StepScenarioScreen(recipe: recipe!),
+                              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                const begin = Offset(0.0, 1.0);  // Transition from bottom to top
+                                const end = Offset.zero;
+                                const curve = Curves.easeInOut;
+
+                                var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                                var offsetAnimation = animation.drive(tween);
+
+                                return SlideTransition(
+                                  position: offsetAnimation,
+                                  child: child,
+                                );
+                              },
                             ),
                           );
+
                         }
                       },
                     ),
