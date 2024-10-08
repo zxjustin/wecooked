@@ -18,18 +18,28 @@ class RecipeListScreen extends StatelessWidget {
               itemCount: recipeBox.length,
               itemBuilder: (context, index) {
                 Recipe? recipe = recipeBox.getAt(index);
-                return ListTile(
-                  title: Text(recipe?.name ?? 'Unnamed Recipe'),
-                  onTap: () {
-                    if (recipe != null) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => StepScenarioScreen(recipe: recipe),
-                        ),
-                      );
-                    }
-                  },
+                return Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  elevation: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: ListTile(
+                      title: Text(recipe?.name ?? 'Unnamed Recipe',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      onTap: () {
+                        if (recipe != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => StepScenarioScreen(recipe: recipe),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
                 );
               },
             );

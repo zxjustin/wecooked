@@ -16,6 +16,16 @@ class RecipeGameApp extends StatelessWidget {
       title: 'Recipe Game',
       theme: ThemeData(
         primarySwatch: Colors.green,
+        textTheme: TextTheme(
+          titleLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          bodyMedium: TextStyle(fontSize: 18, color: Colors.black87),
+        ),
+        buttonTheme: ButtonThemeData(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          buttonColor: Colors.green,
+        ),
       ),
       home: RecipeListScreen(),
     );
