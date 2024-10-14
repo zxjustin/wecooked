@@ -21,14 +21,14 @@ class _StepScenarioScreenState extends State<StepScenarioScreen> with SingleTick
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this, duration: Duration(seconds: 1));
-    audioPlayer = AudioPlayer();  // Initialize audio player
-    _controller.forward();  // Start animation
+    audioPlayer = AudioPlayer();
+    _controller.forward();
   }
 
   @override
   void dispose() {
-    _controller.dispose();  // Clean up controller
-    audioPlayer.dispose();  // Clean up audio player
+    _controller.dispose();
+    audioPlayer.dispose();
     super.dispose();
   }
 
@@ -69,9 +69,22 @@ class _StepScenarioScreenState extends State<StepScenarioScreen> with SingleTick
     return Scaffold(
       appBar: AppBar(title: Text(widget.recipe.name)),
       body: Center(
-        child: Text(
-          "Congratulations! You've completed the recipe.",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/congrats_image.jpg',  // Replace with your image path
+              width: 600,
+              height: 600,
+              fit: BoxFit.cover,
+
+            ),
+            SizedBox(height: 20),
+            Text(
+              "Congratulations! You've completed the recipe.",
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+          ],
         ),
       ),
     );
@@ -101,10 +114,10 @@ class _StepScenarioScreenState extends State<StepScenarioScreen> with SingleTick
 
   void _handleOptionSelected(StepScenario step, int optionIndex) {
     if (step.correctOptionIndex == optionIndex) {
-      _playSound('correct.mp3');  // Use only the filename
+      _playSound('correct.mp3');
       _moveToNextStep();
     } else {
-      _playSound('wrong.mp3');  // Use only the filename
+      _playSound('wrong.mp3');
       _showError();
     }
   }
@@ -130,9 +143,9 @@ class _StepScenarioScreenState extends State<StepScenarioScreen> with SingleTick
 
   void _playSound(String filePath) async {
     try {
-      await audioPlayer.play(AssetSource(filePath));  // Use only the filename
+      await audioPlayer.play(AssetSource(filePath));
     } catch (e) {
-      print('Error playing sound: $e'); // Debugging line
+      print('Error playing sound: $e');
     }
   }
 

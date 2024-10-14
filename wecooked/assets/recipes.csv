@@ -1,4 +1,5 @@
-Name,Ingredients,Question1,Options1,CorrectIndex1,Question2,Options2,CorrectIndex2,Question3,Options3,CorrectIndex3,Question4,Options4,CorrectIndex4
-Classic Pasta,Pasta;Tomato Sauce;Cheese,Choose the main ingredient.,Pasta;Rice,0,Choose the sauce.,Tomato Sauce;Soy Sauce,0,Choose the topping.,Cheese;Ketchup,0,Choose a herb.,Basil;Oregano,0
-Spaghetti Bolognese,Spaghetti;Ground Beef;Tomato Sauce;Garlic,Choose the pasta.,Spaghetti;Macaroni,0,Choose the meat.,Ground Beef;Chicken,0,Choose the sauce.,Tomato Sauce;Pesto Sauce,0,Choose a spice.,Pepper;Chili Flakes,0
-Alfredo Pasta,Fettuccine;Cream;Parmesan Cheese,Choose the type of pasta.,Fettuccine;Spaghetti,0,Choose the sauce.,Alfredo Sauce;Tomato Sauce,0,Choose the topping.,Parmesan Cheese;Cheddar Cheese,0,Choose a vegetable.,Broccoli;Carrots,0
+Name,Ingredients,Question1,Options1,CorrectIndex1,Question2,Options2,CorrectIndex2
+Classic Pasta,Pasta;Tomato Sauce;Cheese,Choose the main ingredient.,Pasta;Rice,0,Choose the sauce.,Tomato Sauce;Soy Sauce,0
+Spaghetti Bolognese,Spaghetti;Ground Beef;Tomato Sauce;Garlic,Choose the pasta.,Spaghetti;Macaroni,0,Choose the meat.,Ground Beef;Chicken,0,Choose the sauce.,Tomato Sauce;Pesto Sauce,0
+Alfredo Pasta,Fettuccine;Cream;Parmesan Cheese,Choose the type of pasta.,Fettuccine;Spaghetti,0,Choose the sauce.,Alfredo Sauce;Tomato Sauce,0,Choose the topping.,Parmesan Cheese;Cheddar Cheese,0
+Aglio Oilo,Chicken;Broccoli;Rice;Soy Sauce,What is the main protein in this dish?,Chicken;Tofu,0,What vegetable is included?,Broccoli;Carrots,0
