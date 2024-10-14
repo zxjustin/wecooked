@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'RecipeListScreen.dart';
 import 'hive_db.dart';
 
@@ -15,7 +16,7 @@ class RecipeGameApp extends StatelessWidget {
     return MaterialApp(
       title: 'Recipe Game',
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.blue,
         textTheme: TextTheme(
           titleLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           bodyMedium: TextStyle(fontSize: 18, color: Colors.black87),
@@ -24,7 +25,7 @@ class RecipeGameApp extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          buttonColor: Colors.green,
+          buttonColor: Colors.blue,
         ),
       ),
       home: RecipeListScreen(),

@@ -10,11 +10,15 @@ class RecipeListScreen extends StatelessWidget {
       appBar: AppBar(title: Text('Recipe Game')),
       body: Column(
         children: [
-          Image.asset(
-            'assets/home_image.jpg',  // Replace with your image path
-            width: 400,
-            height: 400,
-            fit: BoxFit.cover,
+          AnimatedContainer(
+            duration: Duration(seconds: 1),
+            curve: Curves.easeInOut,
+            child: Image.asset(
+              'assets/home_image.jpg',
+              width: 400,
+              height: 400,
+              fit: BoxFit.cover,
+            ),
           ),
           Expanded(
             child: ValueListenableBuilder(
@@ -44,13 +48,15 @@ class RecipeListScreen extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   PageRouteBuilder(
-                                    pageBuilder: (context, animation, secondaryAnimation) => StepScenarioScreen(recipe: recipe!),
+                                    pageBuilder: (context, animation, secondaryAnimation) =>
+                                        StepScenarioScreen(recipe: recipe!),
                                     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                                      const begin = Offset(0.0, 1.0);  // Transition from bottom to top
+                                      const begin = Offset(0.0, 1.0);
                                       const end = Offset.zero;
                                       const curve = Curves.easeInOut;
 
-                                      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                                      var tween = Tween(begin: begin, end: end)
+                                          .chain(CurveTween(curve: curve));
                                       var offsetAnimation = animation.drive(tween);
 
                                       return SlideTransition(

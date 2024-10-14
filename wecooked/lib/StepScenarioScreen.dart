@@ -16,11 +16,16 @@ class _StepScenarioScreenState extends State<StepScenarioScreen> with SingleTick
   bool completed = false;
   late AnimationController _controller;
   late AudioPlayer audioPlayer;
+  late Animation<double> buttonScaleAnimation;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this, duration: Duration(seconds: 1));
+    _controller = AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+    buttonScaleAnimation = Tween<double>(begin: 1.0, end: 1.1).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
     audioPlayer = AudioPlayer();
     _controller.forward();
   }
@@ -56,9 +61,15 @@ class _StepScenarioScreenState extends State<StepScenarioScreen> with SingleTick
             SizedBox(height: 20),
             Text(step.question, style: TextStyle(fontSize: 22, color: Colors.white)),
             SizedBox(height: 20),
-            _buildOptionButton(step, 0),
+            ScaleTransition(
+              scale: buttonScaleAnimation,
+              child: _buildOptionButton(step, 0),
+            ),
             SizedBox(height: 10),
-            _buildOptionButton(step, 1),
+            ScaleTransition(
+              scale: buttonScaleAnimation,
+              child: _buildOptionButton(step, 1),
+            ),
           ],
         ),
       ),
@@ -73,11 +84,10 @@ class _StepScenarioScreenState extends State<StepScenarioScreen> with SingleTick
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/congrats_image.jpg',  // Replace with your image path
+              'assets/congrats_image.jpg',
               width: 600,
               height: 600,
               fit: BoxFit.cover,
-
             ),
             SizedBox(height: 20),
             Text(
@@ -94,14 +104,15 @@ class _StepScenarioScreenState extends State<StepScenarioScreen> with SingleTick
     return LinearProgressIndicator(
       value: (currentStep + 1) / widget.recipe.stepScenarios.length,
       backgroundColor: Colors.grey[300],
-      valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+      valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
     );
   }
 
   Widget _buildOptionButton(StepScenario step, int optionIndex) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.white, backgroundColor: Colors.green,
+        foregroundColor: Colors.white,
+        backgroundColor: Colors.blue,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
         ),
@@ -114,9 +125,11 @@ class _StepScenarioScreenState extends State<StepScenarioScreen> with SingleTick
 
   void _handleOptionSelected(StepScenario step, int optionIndex) {
     if (step.correctOptionIndex == optionIndex) {
+      _controller.forward(from: 0.0);
       _playSound('correct.mp3');
       _moveToNextStep();
     } else {
+      _controller.forward(from: 0.0);
       _playSound('wrong.mp3');
       _showError();
     }

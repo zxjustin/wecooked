@@ -15,6 +15,12 @@ class HiveDB {
   static Future<void> loadCSVtoHive() async {
     var recipeBox = Hive.box<Recipe>('recipes');
 
+    // Check if the box is empty
+    if (recipeBox.isNotEmpty) {
+      print("Recipes are already loaded. Skipping CSV import.");
+      return; // Exit if recipes already exist
+    }
+
     // Load CSV file
     String csvData = await rootBundle.loadString('assets/recipes.csv');
     List<List<dynamic>> rowsAsListOfValues = const CsvToListConverter().convert(csvData);
@@ -38,5 +44,7 @@ class HiveDB {
       // Add Recipe to Hive
       recipeBox.add(Recipe(name: name, ingredients: ingredients, stepScenarios: stepScenarios));
     }
+
+    print("CSV data loaded into Hive.");
   }
 }
