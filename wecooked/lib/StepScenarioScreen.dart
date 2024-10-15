@@ -51,7 +51,12 @@ class _StepScenarioScreenState extends State<StepScenarioScreen> with SingleTick
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage(getBackgroundImageForRecipe(widget.recipe.name)),
-            fit: BoxFit.cover,
+            fit: BoxFit.cover, // Ensure the image covers the entire container
+          ),
+          gradient: LinearGradient(
+            colors: [Colors.blueAccent.withOpacity(0.5), Colors.white.withOpacity(0.5)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
         ),
         child: Column(
@@ -76,29 +81,40 @@ class _StepScenarioScreenState extends State<StepScenarioScreen> with SingleTick
     );
   }
 
+
   Widget _buildCompletionScreen() {
     return Scaffold(
       appBar: AppBar(title: Text(widget.recipe.name)),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/congrats_image.jpg',
-              width: 600,
-              height: 600,
-              fit: BoxFit.cover,
-            ),
-            SizedBox(height: 20),
-            Text(
-              "Congratulations! You've completed the recipe.",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-          ],
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.blueAccent, Colors.white],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/congrats_image.jpg',
+                width: 500,
+                height: 500,
+                fit: BoxFit.cover,
+              ),
+              SizedBox(height: 20),
+              Text(
+                "Congratulations! You've completed the recipe.",
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
+
 
   Widget _buildProgressIndicator() {
     return LinearProgressIndicator(
