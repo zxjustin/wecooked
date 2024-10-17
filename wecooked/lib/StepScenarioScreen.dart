@@ -1,5 +1,5 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'node.dart';
 
 class StepScenarioScreen extends StatefulWidget {
@@ -22,10 +22,12 @@ class _StepScenarioScreenState extends State<StepScenarioScreen> with SingleTick
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this, duration: Duration(milliseconds: 500));
-    buttonScaleAnimation = Tween<double>(begin: 1.0, end: 1.1).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    ));
+    buttonScaleAnimation = Tween<double>(begin: 1.0, end: 1.1).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
     audioPlayer = AudioPlayer();
     _controller.forward();
   }
@@ -46,15 +48,15 @@ class _StepScenarioScreenState extends State<StepScenarioScreen> with SingleTick
     StepScenario step = widget.recipe.stepScenarios[currentStep];
 
     return Scaffold(
-      appBar: AppBar(title: Text(widget.recipe.name)),
+      appBar: AppBar(
+        title: Text(widget.recipe.name),
+        backgroundColor: Colors.blueAccent,
+      ),
       body: Container(
+        // Blue and white gradient background
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(getBackgroundImageForRecipe(widget.recipe.name)),
-            fit: BoxFit.cover, // Ensure the image covers the entire container
-          ),
           gradient: LinearGradient(
-            colors: [Colors.blueAccent.withOpacity(0.5), Colors.white.withOpacity(0.5)],
+            colors: [Colors.blueAccent, Colors.white],  // Blue at the top, white at the bottom
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -62,25 +64,44 @@ class _StepScenarioScreenState extends State<StepScenarioScreen> with SingleTick
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // Circular image made slightly bigger
+            _buildCircularRecipeImage(),
+            SizedBox(height: 20),
             _buildProgressIndicator(),
             SizedBox(height: 20),
-            Text(step.question, style: TextStyle(fontSize: 22, color: Colors.white)),
-            SizedBox(height: 20),
-            ScaleTransition(
-              scale: buttonScaleAnimation,
-              child: _buildOptionButton(step, 0),
+            Text(
+              step.question,
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+              textAlign: TextAlign.center,
             ),
-            SizedBox(height: 10),
-            ScaleTransition(
-              scale: buttonScaleAnimation,
-              child: _buildOptionButton(step, 1),
-            ),
+            SizedBox(height: 15),
+            _buildOptionButtons(step),
           ],
         ),
       ),
     );
   }
 
+  Widget _buildCircularRecipeImage() {
+    return Center(
+      child: ClipOval(
+        child: Container(
+          color: Colors.white,  // Adding white border to make it pop
+          padding: EdgeInsets.all(8),
+          child: Image.asset(
+            getBackgroundImageForRecipe(widget.recipe.name),
+            height: 400,  // Increased size
+            width: 400,  // Slightly larger width for better visibility
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+  }
 
   Widget _buildCompletionScreen() {
     return Scaffold(
@@ -97,16 +118,22 @@ class _StepScenarioScreenState extends State<StepScenarioScreen> with SingleTick
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                'assets/congrats_image.jpg',
-                width: 500,
-                height: 500,
-                fit: BoxFit.cover,
+              ClipOval(
+                child: Image.asset(
+                  'assets/congrats_image.jpg',
+                  width: 200,
+                  height: 200,
+                  fit: BoxFit.cover,
+                ),
               ),
               SizedBox(height: 20),
               Text(
                 "Congratulations! You've completed the recipe.",
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white),
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
             ],
           ),
@@ -115,12 +142,38 @@ class _StepScenarioScreenState extends State<StepScenarioScreen> with SingleTick
     );
   }
 
-
   Widget _buildProgressIndicator() {
     return LinearProgressIndicator(
       value: (currentStep + 1) / widget.recipe.stepScenarios.length,
-      backgroundColor: Colors.grey[300],
-      valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+      backgroundColor: Colors.white,  // White background for better contrast with the blue bar
+      valueColor: AlwaysStoppedAnimation<Color>(Colors.blueAccent),  // Blue progress color
+    );
+  }
+
+  Widget _buildOptionButtons(StepScenario step) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _buildOptionButton(step, 0),
+              _buildOptionButton(step, 1),
+            ],
+          ),
+          if (step.options.length > 2)
+            SizedBox(height: 15),
+          if (step.options.length > 2)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildOptionButton(step, 2),
+                if (step.options.length > 3) _buildOptionButton(step, 3),
+              ],
+            ),
+        ],
+      ),
     );
   }
 
@@ -128,14 +181,19 @@ class _StepScenarioScreenState extends State<StepScenarioScreen> with SingleTick
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.blueAccent,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
+          borderRadius: BorderRadius.circular(8.0),
         ),
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+        elevation: 5,
       ),
       onPressed: () => _handleOptionSelected(step, optionIndex),
-      child: Text(step.options[optionIndex], style: TextStyle(fontSize: 18)),
+      child: Text(
+        step.options[optionIndex],
+        style: TextStyle(fontSize: 16),
+        textAlign: TextAlign.center,
+      ),
     );
   }
 
