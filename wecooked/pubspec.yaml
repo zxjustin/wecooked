@@ -67,6 +67,8 @@ flutter:
     - assets/wrong.mp3
     - assets/congrats_image.jpg
     - assets/home_image.jpg
+    - assets/kitchen.gif
+    - assets/cooking.gif
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
