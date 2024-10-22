@@ -23,26 +23,39 @@ class HiveDB {
 
     // Load CSV file
     String csvData = await rootBundle.loadString('assets/recipes.csv');
-    List<List<dynamic>> rowsAsListOfValues = const CsvToListConverter().convert(csvData);
+    List<List<dynamic>> rowsAsListOfValues = const CsvToListConverter().convert(
+        csvData);
 
     // Assuming the CSV has headers and the first row contains the headers
     for (var row in rowsAsListOfValues.skip(1)) { // Skip header row
-      String name = row[0]; // Assuming the name is in the first column
-      List<String> ingredients = List<String>.from(row[1].split(';')); // Assuming ingredients are separated by semicolons
+      String name = row[0]; // Recipe name
+      List<String> ingredients = List<String>.from(
+          row[1].split(';')); // Ingredients
       List<StepScenario> stepScenarios = [];
 
       // Create StepScenario instances from the remaining columns
-      for (int i = 2; i < row.length; i += 3) { // Adjust to handle more questions
-        if (i + 2 < row.length) {
-          String question = row[i];
-          List<String> options = List<String>.from(row[i + 1].split(';')); // Assuming options are separated by semicolons
-          int correctOptionIndex = row[i + 2];
-          stepScenarios.add(StepScenario(question: question, options: options, correctOptionIndex: correctOptionIndex));
+      for (int i = 2; i < row.length; i += 4) { // Adjust for flexible flag
+        if (i + 3 < row.length) {
+          String question = row[i]; // Question
+          List<String> options = List<String>.from(row[i + 1].split(';')); // Options
+          int? correctOptionIndex = row[i + 2] != ''
+              ? int.tryParse(row[i + 2].toString()) // Convert to int safely
+              : null; // Nullable index
+          bool isFlexible = row[i + 3].toLowerCase() == 'true'; // Flexible flag
+
+          stepScenarios.add(StepScenario(
+            question: question,
+            options: options,
+            correctOptionIndex: correctOptionIndex,
+            isFlexible: isFlexible,
+          ));
         }
       }
 
+
       // Add Recipe to Hive
-      recipeBox.add(Recipe(name: name, ingredients: ingredients, stepScenarios: stepScenarios));
+      recipeBox.add(Recipe(
+          name: name, ingredients: ingredients, stepScenarios: stepScenarios));
     }
 
     print("CSV data loaded into Hive.");

@@ -29,11 +29,15 @@ class StepScenario extends HiveObject {
   List<String> options;
 
   @HiveField(2)
-  int correctOptionIndex;
+  int? correctOptionIndex;
+
+  @HiveField(3)
+  bool isFlexible;
 
   StepScenario({
     required this.question,
     required this.options,
-    required this.correctOptionIndex,
+    this.correctOptionIndex, // Optional now
+    this.isFlexible = false, // Default to false
   });
 }

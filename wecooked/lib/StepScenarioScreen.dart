@@ -245,16 +245,34 @@ class _StepScenarioScreenState extends State<StepScenarioScreen> with SingleTick
   }
 
   void _handleOptionSelected(StepScenario step, int optionIndex) {
-    if (step.correctOptionIndex == optionIndex) {
-      _controller.forward(from: 0.0);
-      _playSound('correct.mp3');
-      _moveToNextStep();
+    if (step.isFlexible) {
+      // For flexible questions, provide feedback and move to the next step
+      _showFlexibleFeedback();
+      _moveToNextStep(); // Move to the next step after a flexible choice
     } else {
-      _controller.forward(from: 0.0);
-      _playSound('wrong.mp3');
-      _showError();
+      // For strict questions, check against correctOptionIndex
+      if (step.correctOptionIndex == optionIndex) {
+        _controller.forward(from: 0.0);
+        _playSound('correct.mp3');
+        _moveToNextStep();
+      } else {
+        _controller.forward(from: 0.0);
+        _playSound('wrong.mp3');
+        _showError();
+      }
     }
   }
+
+
+  void _showFlexibleFeedback() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Good choice!'),
+        backgroundColor: Colors.green,
+      ),
+    );
+  }
+
 
   void _moveToNextStep() {
     setState(() {

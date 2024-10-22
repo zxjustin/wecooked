@@ -59,20 +59,23 @@ class StepScenarioAdapter extends TypeAdapter<StepScenario> {
     return StepScenario(
       question: fields[0] as String,
       options: (fields[1] as List).cast<String>(),
-      correctOptionIndex: fields[2] as int,
+      correctOptionIndex: fields[2] as int?,
+      isFlexible: fields[3] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, StepScenario obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.question)
       ..writeByte(1)
       ..write(obj.options)
       ..writeByte(2)
-      ..write(obj.correctOptionIndex);
+      ..write(obj.correctOptionIndex)
+      ..writeByte(3)
+      ..write(obj.isFlexible);
   }
 
   @override
