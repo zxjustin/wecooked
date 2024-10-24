@@ -303,12 +303,14 @@ class _StepScenarioScreenState extends State<StepScenarioScreen> with SingleTick
 
   String getBackgroundImageForRecipe(String recipeName) {
     switch (recipeName) {
-      case 'Classic Pasta':
-        return 'assets/pasta_bg.jpg';
+      case 'Carbonara Pasta':
+        return 'assets/carbonara.jpg';
       case 'Spaghetti Bolognese':
         return 'assets/bolognese_bg.jpg';
       case 'Alfredo Pasta':
         return 'assets/alfredo_bg.jpg';
+      case 'Aglio Olio':
+        return 'assets/pasta_bg.jpg';
       default:
         return 'assets/default_bg.jpg';
     }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'hive_db.dart';
-import 'RecipeListScreen.dart';
 import 'WelcomeScreen.dart';
 
 void main() async {
@@ -18,16 +17,6 @@ class RecipeGameApp extends StatelessWidget {
       title: 'weCooked',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        textTheme: TextTheme(
-          displayLarge: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.blue),
-          bodyLarge: TextStyle(fontSize: 18, color: Colors.black87),
-        ),
-        buttonTheme: ButtonThemeData(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          buttonColor: Colors.blue,
-        ),
       ),
       home: WelcomeScreen(),
     );
