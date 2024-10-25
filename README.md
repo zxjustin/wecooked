@@ -1,4 +1,4 @@
-# wecooked: Interactice Cooking Recipe App
+# weCooked: Interactice Cooking Recipe App
 
 ## Project Overview
 weCooked is an interactive recipe app designed to make learning new recipes fun and engaging. It guides users through each step with decision points, allowing them to select ingredients and cooking methods. The app gives feedback on correct and incorrect choices and encourages users to improve their culinary skills, unlocking more challenging recipes as they progress.
@@ -41,5 +41,5 @@ flutter:
     - assets/cooking.gif
     - assets/carbonara.jpg
 
-### Launch the App: test it on an emulator 
-flutter run 
+### Launch the App:
+- Type in "flutter run" in the terminal
