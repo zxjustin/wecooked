@@ -16,7 +16,9 @@ class RecipeGameApp extends StatelessWidget {
     return MaterialApp(
       title: 'weCooked',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Color(0xFFA8D5BA),
+        )
       ),
       home: WelcomeScreen(),
     );

@@ -8,6 +8,7 @@ class RecipeListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('weCooked')),
+      backgroundColor: Color(0xFFA8D5BA),
       body: Stack(
         children: [
           Container(
